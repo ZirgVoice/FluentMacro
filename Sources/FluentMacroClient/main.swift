@@ -1,8 +1,97 @@
-import FluentMacro
+ import FluentMacro
+ import Foundation
 
-let a = 17
-let b = 25
+ @FluentSorting
+ @FluentFiltering
+ final class SimulatorModel: @unchecked Sendable {
+     static let schema = "simulators"
 
-let (result, code) = #stringify(a + b)
+     var id: UUID?
 
-print("The value \(result) was produced by the code \"\(code)\"")
+     @FluentSortingField
+     @FluentFilteringField(
+         methods: [
+             .equal,
+             .notEqual,
+             .greaterThan,
+             .greaterThanOrEqual,
+             .lessThan,
+             .lessThanOrEqual,
+         ]
+     )
+     var intID: Int
+
+     @FluentSortingField
+     var locationID: UUID
+
+     @FluentSortingField
+     @FluentFilteringField(
+         methods: [
+             .ilike
+         ]
+     )
+     var position: String
+
+     @FluentFilteringField(
+         methods: [
+             .valueInSet,
+             .valueNotInSet
+         ]
+     )
+     var positionen: [String]
+     
+     @Group(key: .position)
+     var positions: SimulatorPosition
+
+     var gameVersion: String?
+     @FluentSortingField
+     var createdAt: Date?
+     var updatedAt: Date?
+     var deletedAt: Date?
+
+     init(id: UUID?, intID: Int, locationID: UUID, position: String, gameVersion: String?, createdAt: Date?, updatedAt: Date?, deletedAt: Date?) {
+         self.id = id
+         self.intID = intID
+         self.locationID = locationID
+         self.position = position
+         self.gameVersion = gameVersion
+         self.createdAt = createdAt
+         self.updatedAt = updatedAt
+         self.deletedAt = deletedAt
+     }
+     
+     final class SimulatorPosition {
+         @FluentFilteringField(
+             methods: [
+                 .equal,
+                 .notEqual,
+                 .greaterThan,
+                 .greaterThanOrEqual,
+                 .lessThan,
+                 .lessThanOrEqual,
+             ]
+         )
+         var coordinateX: Int?
+         @FluentFilteringField(
+             methods: [
+                 .equal,
+                 .notEqual,
+                 .greaterThan,
+                 .greaterThanOrEqual,
+                 .lessThan,
+                 .lessThanOrEqual,
+             ]
+         )
+         var coordinateY: Int?
+
+         internal init() {}
+
+         internal init(
+             coordinateX: Int? = nil,
+             coordinateY: Int? = nil
+         ) {
+             self.coordinateX = coordinateX
+             self.coordinateY = coordinateY
+         }
+     }
+ }

@@ -1,11 +1,23 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+@attached(extension, names: arbitrary)
+@attached(member, names: arbitrary)
+public macro FluentSorting() = #externalMacro(module: "FluentMacroMacros", type: "FluentSortingMacro")
+@attached(extension, names: arbitrary)
+public macro FluentFiltering() = #externalMacro(module: "FluentMacroMacros", type: "FluentFilteringMacro")
 
-/// A macro that produces both a value and a string containing the
-/// source code that generated the value. For example,
-///
-///     #stringify(x + y)
-///
-/// produces a tuple `(x + y, "x + y")`.
-@freestanding(expression)
-public macro stringify<T>(_ value: T) -> (T, String) = #externalMacro(module: "FluentMacroMacros", type: "StringifyMacro")
+@attached(peer)
+public macro FluentSortingField() = #externalMacro(module: "FluentMacroMacros", type: "FluentSortingFieldMacro")
+@attached(peer)
+public macro FluentFilteringField(methods: [FluentFilteringMethods]) =
+    #externalMacro(module: "FluentMacroMacros", type: "FluentFilteringFieldMacro")
+
+public enum FluentFilteringMethods: String {
+    case ilike
+    case equal
+    case notEqual
+    case greaterThan
+    case greaterThanOrEqual
+    case lessThan
+    case lessThanOrEqual
+    case valueInSet
+    case valueNotInSet
+}
