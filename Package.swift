@@ -16,10 +16,11 @@ let package = Package(
         .executable(
             name: "FluentMacroClient",
             targets: ["FluentMacroClient"]
-        )
+        ),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-syntax.git", from: "600.0.0-latest")
+        .package(url: "https://github.com/swiftlang/swift-syntax", "509.0.0"..<"601.0.0-prerelease"),
+        .package(url: "https://github.com/pointfreeco/swift-macro-testing", from: "0.6.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -29,12 +30,18 @@ let package = Package(
             name: "FluentMacroMacros",
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             ]
         ),
 
         // Library that exposes a macro as part of its API, which is used in client programs.
-        .target(name: "FluentMacro", dependencies: ["FluentMacroMacros"]),
+        .target(
+            name: "FluentMacro",
+            dependencies: [
+                "FluentMacroMacros",
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+            ]
+        ),
 
         // A client of the library, which is able to use the macro in its own code.
         .executableTarget(name: "FluentMacroClient", dependencies: ["FluentMacro"]),
@@ -44,8 +51,8 @@ let package = Package(
             name: "FluentMacroTests",
             dependencies: [
                 "FluentMacroMacros",
-                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax")
+                .product(name: "MacroTesting", package: "swift-macro-testing"),
             ]
-        )
+        ),
     ]
 )
