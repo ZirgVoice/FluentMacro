@@ -3,11 +3,10 @@
 //
 //@FluentSorting
 //@FluentFiltering
-//final class SimulatorModel: @unchecked Sendable {
-//    static let schema = "simulators"
+//final class TestModel: @unchecked Sendable {
+//    static let schema = "test"
 //
 //    var id: UUID?
-//
 //    @FluentSortingField
 //    @FluentFilteringField(
 //        methods: [
@@ -16,51 +15,68 @@
 //            .greaterThan,
 //            .greaterThanOrEqual,
 //            .lessThan,
-//            .lessThanOrEqual
+//            .lessThanOrEqual,
 //        ]
 //    )
-//    var intID: Int
-//
+//    var intField: Int
 //    @FluentSortingField
-//    var locationID: UUID
-//
+//    @FluentFilteringField(
+//        methods: [
+//            .equal,
+//            .notEqual,
+//            .greaterThan,
+//            .greaterThanOrEqual,
+//            .lessThan,
+//            .lessThanOrEqual,
+//        ]
+//    )
+//    var uuidField: UUID
 //    @FluentSortingField
 //    @FluentFilteringField(
 //        methods: [
 //            .ilike
 //        ]
 //    )
-//    var position: String
-//
+//    var stringField: String
+//    @FluentSortingField
 //    @FluentFilteringField(
 //        methods: [
 //            .valueInSet,
 //            .valueNotInSet
 //        ]
 //    )
-//    var positions: [String]
-//
+//    var arrayField: [String]
 //    @Group(key: .position)
-//    var positionen: SimulatorPosition
-//
-//    var gameVersion: String?
+//    var groupField: TestGroup
 //    @FluentSortingField
-//    var createdAt: Date?
-//    var updatedAt: Date?
-//    var deletedAt: Date?
+//    @FluentFilteringField(
+//        methods: [
+//            .equal,
+//            .notEqual,
+//            .greaterThan,
+//            .greaterThanOrEqual,
+//            .lessThan,
+//            .lessThanOrEqual,
+//        ]
+//    )
+//    var dateField: Date
+//    @FluentSortingField
+//    @FluentFilteringField(
+//        methods: [
+//            .equal,
+//            .notEqual,
+//            .greaterThan,
+//            .greaterThanOrEqual,
+//            .lessThan,
+//            .lessThanOrEqual,
+//        ]
+//    )
+//    var optionalDateField: Date?
+//    
+//    init() {}
 //
-//    init(id: UUID?, intID: Int, locationID: UUID, position: String, gameVersion: String?, createdAt: Date?, updatedAt: Date?, deletedAt: Date?) {
-//        self.id = id
-//        self.intID = intID
-//        self.locationID = locationID
-//        self.position = position
-//        self.gameVersion = gameVersion
-//        self.createdAt = createdAt
-//        self.updatedAt = updatedAt
-//        self.deletedAt = deletedAt
-//    }
-//
-//    final class SimulatorPosition {
+//    final class TestGroup {
+//        @FluentSortingField
 //        @FluentFilteringField(
 //            methods: [
 //                .equal,
@@ -71,8 +87,8 @@
 //                .lessThanOrEqual,
 //            ]
 //        )
+//        var intField: Int
 //        @FluentSortingField
-//        var coordinateX: Int?
 //        @FluentFilteringField(
 //            methods: [
 //                .equal,
@@ -83,17 +99,47 @@
 //                .lessThanOrEqual,
 //            ]
 //        )
+//        var uuidField: UUID
 //        @FluentSortingField
-//        var coordinateY: Int?
-//
-//        internal init() {}
-//
-//        internal init(
-//            coordinateX: Int? = nil,
-//            coordinateY: Int? = nil
-//        ) {
-//            self.coordinateX = coordinateX
-//            self.coordinateY = coordinateY
-//        }
+//        @FluentFilteringField(
+//            methods: [
+//                .ilike
+//            ]
+//        )
+//        var stringField: String
+//        @FluentSortingField
+//        @FluentFilteringField(
+//            methods: [
+//                .valueInSet,
+//                .valueNotInSet
+//            ]
+//        )
+//        var arrayField: [String]
+//        @FluentSortingField
+//        @FluentFilteringField(
+//            methods: [
+//                .equal,
+//                .notEqual,
+//                .greaterThan,
+//                .greaterThanOrEqual,
+//                .lessThan,
+//                .lessThanOrEqual,
+//            ]
+//        )
+//        var dateField: Date
+//        @FluentSortingField
+//        @FluentFilteringField(
+//            methods: [
+//                .equal,
+//                .notEqual,
+//                .greaterThan,
+//                .greaterThanOrEqual,
+//                .lessThan,
+//                .lessThanOrEqual,
+//            ]
+//        )
+//        var optionalDateField: Date?
+//        
+//        init() {}
 //    }
 //}

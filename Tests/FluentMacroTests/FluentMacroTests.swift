@@ -24,126 +24,120 @@ struct FluentMacroTests {
         assertMacro {
             """
             @FluentSorting
-            final class SimulatorModel: @unchecked Sendable {
-                static let schema = "simulators"
+            final class TestModel: @unchecked Sendable {
+                static let schema = "test"
 
                 var id: UUID?
                 @FluentSortingField
-                var intID: Int
+                var intField: Int
                 @FluentSortingField
-                var locationID: UUID
+                var uuidField: UUID
                 @FluentSortingField
-                var position: String
-                var positions: [String]
+                var stringField: String
+                @FluentSortingField
+                var arrayField: [String]
                 @Group(key: .position)
-                var positionen: SimulatorPosition
-                var gameVersion: String?
+                var groupField: TestGroup
                 @FluentSortingField
-                var createdAt: Date?
-                var updatedAt: Date?
-                var deletedAt: Date?
+                var dateField: Date
+                @FluentSortingField
+                var optionalDateField: Date?
+                
+                init() {}
 
-                init(id: UUID?, intID: Int, locationID: UUID, position: String, gameVersion: String?, createdAt: Date?, updatedAt: Date?, deletedAt: Date?) {
-                    self.id = id
-                    self.intID = intID
-                    self.locationID = locationID
-                    self.position = position
-                    self.gameVersion = gameVersion
-                    self.createdAt = createdAt
-                    self.updatedAt = updatedAt
-                    self.deletedAt = deletedAt
-                }
-
-                final class SimulatorPosition {
+                final class TestGroup {
                     @FluentSortingField
-                    var coordinateX: Int?
+                    var intField: Int
                     @FluentSortingField
-                    var coordinateY: Int?
-
-                    internal init() {}
-
-                    internal init(
-                        coordinateX: Int? = nil,
-                        coordinateY: Int? = nil
-                    ) {
-                        self.coordinateX = coordinateX
-                        self.coordinateY = coordinateY
-                    }
+                    var uuidField: UUID
+                    @FluentSortingField
+                    var stringField: String
+                    @FluentSortingField
+                    var arrayField: [String]
+                    @FluentSortingField
+                    var dateField: Date
+                    @FluentSortingField
+                    var optionalDateField: Date?
+                    
+                    init() {}
                 }
             }
             """
         } expansion: {
             #"""
-            final class SimulatorModel: @unchecked Sendable {
-                static let schema = "simulators"
+            final class TestModel: @unchecked Sendable {
+                static let schema = "test"
 
                 var id: UUID?
-                var intID: Int
-                var locationID: UUID
-                var position: String
-                var positions: [String]
+                var intField: Int
+                var uuidField: UUID
+                var stringField: String
+                var arrayField: [String]
                 @Group(key: .position)
-                var positionen: SimulatorPosition
-                var gameVersion: String?
-                var createdAt: Date?
-                var updatedAt: Date?
-                var deletedAt: Date?
+                var groupField: TestGroup
+                var dateField: Date
+                var optionalDateField: Date?
+                
+                init() {}
 
-                init(id: UUID?, intID: Int, locationID: UUID, position: String, gameVersion: String?, createdAt: Date?, updatedAt: Date?, deletedAt: Date?) {
-                    self.id = id
-                    self.intID = intID
-                    self.locationID = locationID
-                    self.position = position
-                    self.gameVersion = gameVersion
-                    self.createdAt = createdAt
-                    self.updatedAt = updatedAt
-                    self.deletedAt = deletedAt
-                }
-
-                final class SimulatorPosition {
-                    var coordinateX: Int?
-                    var coordinateY: Int?
-
-                    internal init() {}
-
-                    internal init(
-                        coordinateX: Int? = nil,
-                        coordinateY: Int? = nil
-                    ) {
-                        self.coordinateX = coordinateX
-                        self.coordinateY = coordinateY
-                    }
+                final class TestGroup {
+                    var intField: Int
+                    var uuidField: UUID
+                    var stringField: String
+                    var arrayField: [String]
+                    var dateField: Date
+                    var optionalDateField: Date?
+                    
+                    init() {}
                 }
             }
 
-            extension SimulatorModel {
+            extension TestModel {
                 enum Sort: String, Codable, CaseIterable {
-                    case intID
-                    case locationID
-                    case position
-                    case coordinateX
-                    case coordinateY
-                    case createdAt
+                    case intField
+                    case uuidField
+                    case stringField
+                    case arrayField
+                    case intField
+                    case uuidField
+                    case stringField
+                    case arrayField
+                    case dateField
+                    case optionalDateField
+                    case dateField
+                    case optionalDateField
                 }
             }
 
-            extension QueryBuilder where Model == SimulatorModel {
-                func sort(fields: [SimulatorModel.Sort: DatabaseQuery.Sort.Direction]) -> Self {
+            extension QueryBuilder where Model == TestModel {
+                func sort(fields: [TestModel.Sort: DatabaseQuery.Sort.Direction]) -> Self {
                     var query = self
                     fields.forEach { field in
                         switch field {
-                        case .intID:
-                            query = query.sort(\.$intID, direction)
-                        case .locationID:
-                            query = query.sort(\.$locationID, direction)
-                        case .position:
-                            query = query.sort(\.$position, direction)
-                        case .coordinateX:
-                            query = query.sort(\.$positionen.$coordinateX, direction)
-                        case .coordinateY:
-                            query = query.sort(\.$positionen.$coordinateY, direction)
-                        case .createdAt:
-                            query = query.sort(\.$createdAt, direction)
+                        case .intField:
+                            query = query.sort(\.$intField, direction)
+                        case .uuidField:
+                            query = query.sort(\.$uuidField, direction)
+                        case .stringField:
+                            query = query.sort(\.$stringField, direction)
+                        case .arrayField:
+                            query = query.sort(\.$arrayField, direction)
+                        case .intField:
+                            query = query.sort(\.$groupField.$intField, direction)
+                        case .uuidField:
+                            query = query.sort(\.$groupField.$uuidField, direction)
+                        case .stringField:
+                            query = query.sort(\.$groupField.$stringField, direction)
+                        case .arrayField:
+                            query = query.sort(\.$groupField.$arrayField, direction)
+                        case .dateField:
+                            query = query.sort(\.$groupField.$dateField, direction)
+                        case .optionalDateField:
+                            query = query.sort(\.$groupField.$optionalDateField, direction)
+                        case .dateField:
+                            query = query.sort(\.$dateField, direction)
+                        case .optionalDateField:
+                            query = query.sort(\.$optionalDateField, direction)
                         }
                     }
                     return query
@@ -158,8 +152,8 @@ struct FluentMacroTests {
         assertMacro {
             """
             @FluentFiltering
-            final class SimulatorModel: @unchecked Sendable {
-                static let schema = "simulators"
+            final class TestModel: @unchecked Sendable {
+                static let schema = "test"
 
                 var id: UUID?
                 @FluentFilteringField(
@@ -172,40 +166,59 @@ struct FluentMacroTests {
                         .lessThanOrEqual,
                     ]
                 )
-                var intID: Int
-                var locationID: UUID
+                var intField: Int
+                @FluentFilteringField(
+                    methods: [
+                        .equal,
+                        .notEqual,
+                        .greaterThan,
+                        .greaterThanOrEqual,
+                        .lessThan,
+                        .lessThanOrEqual,
+                    ]
+                )
+                var uuidField: UUID
                 @FluentFilteringField(
                     methods: [
                         .ilike
                     ]
                 )
-                var position: String
+                var stringField: String
                 @FluentFilteringField(
                     methods: [
                         .valueInSet,
                         .valueNotInSet
                     ]
                 )
-                var positions: [String]
+                var arrayField: [String]
                 @Group(key: .position)
-                var positionen: SimulatorPosition
-                var gameVersion: String?
-                var createdAt: Date?
-                var updatedAt: Date?
-                var deletedAt: Date?
+                var groupField: TestGroup
+                @FluentFilteringField(
+                    methods: [
+                        .equal,
+                        .notEqual,
+                        .greaterThan,
+                        .greaterThanOrEqual,
+                        .lessThan,
+                        .lessThanOrEqual,
+                    ]
+                )
+                var dateField: Date
+                @FluentFilteringField(
+                    methods: [
+                        .equal,
+                        .notEqual,
+                        .greaterThan,
+                        .greaterThanOrEqual,
+                        .lessThan,
+                        .lessThanOrEqual,
+                    ]
+                )
+                var optionalDateField: Date?
+                
+                init() {}
 
-                init(id: UUID?, intID: Int, locationID: UUID, position: String, gameVersion: String?, createdAt: Date?, updatedAt: Date?, deletedAt: Date?) {
-                    self.id = id
-                    self.intID = intID
-                    self.locationID = locationID
-                    self.position = position
-                    self.gameVersion = gameVersion
-                    self.createdAt = createdAt
-                    self.updatedAt = updatedAt
-                    self.deletedAt = deletedAt
-                }
-
-                final class SimulatorPosition {
+                final class TestGroup {
                     @FluentFilteringField(
                         methods: [
                             .equal,
@@ -216,7 +229,7 @@ struct FluentMacroTests {
                             .lessThanOrEqual,
                         ]
                     )
-                    var coordinateX: Int?
+                    var intField: Int
                     @FluentFilteringField(
                         methods: [
                             .equal,
@@ -227,156 +240,300 @@ struct FluentMacroTests {
                             .lessThanOrEqual,
                         ]
                     )
-                    var coordinateY: Int?
-
-                    internal init() {}
-
-                    internal init(
-                        coordinateX: Int? = nil,
-                        coordinateY: Int? = nil
-                    ) {
-                        self.coordinateX = coordinateX
-                        self.coordinateY = coordinateY
-                    }
+                    var uuidField: UUID
+                    @FluentFilteringField(
+                        methods: [
+                            .ilike
+                        ]
+                    )
+                    var stringField: String
+                    @FluentFilteringField(
+                        methods: [
+                            .valueInSet,
+                            .valueNotInSet
+                        ]
+                    )
+                    var arrayField: [String]
+                    @FluentFilteringField(
+                        methods: [
+                            .equal,
+                            .notEqual,
+                            .greaterThan,
+                            .greaterThanOrEqual,
+                            .lessThan,
+                            .lessThanOrEqual,
+                        ]
+                    )
+                    var dateField: Date
+                    @FluentFilteringField(
+                        methods: [
+                            .equal,
+                            .notEqual,
+                            .greaterThan,
+                            .greaterThanOrEqual,
+                            .lessThan,
+                            .lessThanOrEqual,
+                        ]
+                    )
+                    var optionalDateField: Date?
+                    
+                    init() {}
                 }
             }
             """
         } expansion: {
             #"""
-            final class SimulatorModel: @unchecked Sendable {
-                static let schema = "simulators"
+            final class TestModel: @unchecked Sendable {
+                static let schema = "test"
 
                 var id: UUID?
-                var intID: Int
-                var locationID: UUID
-                var position: String
-                var positions: [String]
+                var intField: Int
+                var uuidField: UUID
+                var stringField: String
+                var arrayField: [String]
                 @Group(key: .position)
-                var positionen: SimulatorPosition
-                var gameVersion: String?
-                var createdAt: Date?
-                var updatedAt: Date?
-                var deletedAt: Date?
+                var groupField: TestGroup
+                var dateField: Date
+                var optionalDateField: Date?
+                
+                init() {}
 
-                init(id: UUID?, intID: Int, locationID: UUID, position: String, gameVersion: String?, createdAt: Date?, updatedAt: Date?, deletedAt: Date?) {
-                    self.id = id
-                    self.intID = intID
-                    self.locationID = locationID
-                    self.position = position
-                    self.gameVersion = gameVersion
-                    self.createdAt = createdAt
-                    self.updatedAt = updatedAt
-                    self.deletedAt = deletedAt
-                }
-
-                final class SimulatorPosition {
-                    var coordinateX: Int?
-                    var coordinateY: Int?
-
-                    internal init() {}
-
-                    internal init(
-                        coordinateX: Int? = nil,
-                        coordinateY: Int? = nil
-                    ) {
-                        self.coordinateX = coordinateX
-                        self.coordinateY = coordinateY
-                    }
+                final class TestGroup {
+                    var intField: Int
+                    var uuidField: UUID
+                    var stringField: String
+                    var arrayField: [String]
+                    var dateField: Date
+                    var optionalDateField: Date?
+                    
+                    init() {}
                 }
             }
 
-            extension SimulatorModel {
+            extension TestModel {
                 struct Filter: Codable, Hashable {
-                    var intIDEQ: Int?
-                    var intIDNEQ: Int?
-                    var intIDGT: Int?
-                    var intIDGTE: Int?
-                    var intIDLT: Int?
-                    var intIDLTE: Int?
-                    var positionILIKE: String?
-                    var positionsVS: [String]?
-                    var positionsNVS: [String]?
-                    var coordinateXEQ: Int?
-                    var coordinateXNEQ: Int?
-                    var coordinateXGT: Int?
-                    var coordinateXGTE: Int?
-                    var coordinateXLT: Int?
-                    var coordinateXLTE: Int?
-                    var coordinateYEQ: Int?
-                    var coordinateYNEQ: Int?
-                    var coordinateYGT: Int?
-                    var coordinateYGTE: Int?
-                    var coordinateYLT: Int?
-                    var coordinateYLTE: Int?
+                    var intFieldEQ: Int?
+                    var intFieldNEQ: Int?
+                    var intFieldGT: Int?
+                    var intFieldGTE: Int?
+                    var intFieldLT: Int?
+                    var intFieldLTE: Int?
+                    var uuidFieldEQ: UUID?
+                    var uuidFieldNEQ: UUID?
+                    var uuidFieldGT: UUID?
+                    var uuidFieldGTE: UUID?
+                    var uuidFieldLT: UUID?
+                    var uuidFieldLTE: UUID?
+                    var stringFieldILIKE: String?
+                    var arrayFieldVS: [String]?
+                    var arrayFieldNVS: [String]?
+                    var intFieldEQ: Int?
+                    var intFieldNEQ: Int?
+                    var intFieldGT: Int?
+                    var intFieldGTE: Int?
+                    var intFieldLT: Int?
+                    var intFieldLTE: Int?
+                    var uuidFieldEQ: UUID?
+                    var uuidFieldNEQ: UUID?
+                    var uuidFieldGT: UUID?
+                    var uuidFieldGTE: UUID?
+                    var uuidFieldLT: UUID?
+                    var uuidFieldLTE: UUID?
+                    var stringFieldILIKE: String?
+                    var arrayFieldVS: [String]?
+                    var arrayFieldNVS: [String]?
+                    var dateFieldEQ: Date?
+                    var dateFieldNEQ: Date?
+                    var dateFieldGT: Date?
+                    var dateFieldGTE: Date?
+                    var dateFieldLT: Date?
+                    var dateFieldLTE: Date?
+                    var optionalDateFieldEQ: Date?
+                    var optionalDateFieldNEQ: Date?
+                    var optionalDateFieldGT: Date?
+                    var optionalDateFieldGTE: Date?
+                    var optionalDateFieldLT: Date?
+                    var optionalDateFieldLTE: Date?
+                    var dateFieldEQ: Date?
+                    var dateFieldNEQ: Date?
+                    var dateFieldGT: Date?
+                    var dateFieldGTE: Date?
+                    var dateFieldLT: Date?
+                    var dateFieldLTE: Date?
+                    var optionalDateFieldEQ: Date?
+                    var optionalDateFieldNEQ: Date?
+                    var optionalDateFieldGT: Date?
+                    var optionalDateFieldGTE: Date?
+                    var optionalDateFieldLT: Date?
+                    var optionalDateFieldLTE: Date?
                 }
             }
 
-            extension QueryBuilder where Model == SimulatorModel {
-                func filter(with args: SimulatorModel.Filter) -> Self {
+            extension QueryBuilder where Model == TestModel {
+                func filter(with args: TestModel.Filter) -> Self {
                     var query = self
 
-                    if let intIDEQ = args.intIDEQ {
-                        query.filter(\.$intID == intIDEQ)
+                    if let intFieldEQ = args.intFieldEQ {
+                        query.filter(\.$intField == intFieldEQ)
                     }
-                    if let intIDNEQ = args.intIDNEQ {
-                        query.filter(\.$intID != intIDNEQ)
+                    if let intFieldNEQ = args.intFieldNEQ {
+                        query.filter(\.$intField != intFieldNEQ)
                     }
-                    if let intIDGT = args.intIDGT {
-                        query.filter(\.$intID > intIDGT)
+                    if let intFieldGT = args.intFieldGT {
+                        query.filter(\.$intField > intFieldGT)
                     }
-                    if let intIDGTE = args.intIDGTE {
-                        query.filter(\.$intID >= intIDGTE)
+                    if let intFieldGTE = args.intFieldGTE {
+                        query.filter(\.$intField >= intFieldGTE)
                     }
-                    if let intIDLT = args.intIDLT {
-                        query.filter(\.$intID < intIDLT)
+                    if let intFieldLT = args.intFieldLT {
+                        query.filter(\.$intField < intFieldLT)
                     }
-                    if let intIDLTE = args.intIDLTE {
-                        query.filter(\.$intID <= intIDLTE)
+                    if let intFieldLTE = args.intFieldLTE {
+                        query.filter(\.$intField <= intFieldLTE)
                     }
-                    if let positionILIKE = args.positionILIKE {
-                        query.filter(\.$position, .custom("ILIKE"), "%\(positionILIKE)%")
+                    if let uuidFieldEQ = args.uuidFieldEQ {
+                        query.filter(\.$uuidField == uuidFieldEQ)
                     }
-                    if let positionsVS = args.positionsVS {
-                        query.filter(\.$positions ~~ positionsVS)
+                    if let uuidFieldNEQ = args.uuidFieldNEQ {
+                        query.filter(\.$uuidField != uuidFieldNEQ)
                     }
-                    if let positionsNVS = args.positionsNVS {
-                        query.filter(\.$positions !~ positionsNVS)
+                    if let uuidFieldGT = args.uuidFieldGT {
+                        query.filter(\.$uuidField > uuidFieldGT)
                     }
-                    if let coordinateXEQ = args.coordinateXEQ {
-                        query.filter(\.$positionen.$coordinateX == coordinateXEQ)
+                    if let uuidFieldGTE = args.uuidFieldGTE {
+                        query.filter(\.$uuidField >= uuidFieldGTE)
                     }
-                    if let coordinateXNEQ = args.coordinateXNEQ {
-                        query.filter(\.$positionen.$coordinateX != coordinateXNEQ)
+                    if let uuidFieldLT = args.uuidFieldLT {
+                        query.filter(\.$uuidField < uuidFieldLT)
                     }
-                    if let coordinateXGT = args.coordinateXGT {
-                        query.filter(\.$positionen.$coordinateX > coordinateXGT)
+                    if let uuidFieldLTE = args.uuidFieldLTE {
+                        query.filter(\.$uuidField <= uuidFieldLTE)
                     }
-                    if let coordinateXGTE = args.coordinateXGTE {
-                        query.filter(\.$positionen.$coordinateX >= coordinateXGTE)
+                    if let stringFieldILIKE = args.stringFieldILIKE {
+                        query.filter(\.$stringField, .custom("ILIKE"), "%\(stringFieldILIKE)%")
                     }
-                    if let coordinateXLT = args.coordinateXLT {
-                        query.filter(\.$positionen.$coordinateX < coordinateXLT)
+                    if let arrayFieldVS = args.arrayFieldVS {
+                        query.filter(\.$arrayField ~~ arrayFieldVS)
                     }
-                    if let coordinateXLTE = args.coordinateXLTE {
-                        query.filter(\.$positionen.$coordinateX <= coordinateXLTE)
+                    if let arrayFieldNVS = args.arrayFieldNVS {
+                        query.filter(\.$arrayField !~ arrayFieldNVS)
                     }
-                    if let coordinateYEQ = args.coordinateYEQ {
-                        query.filter(\.$positionen.$coordinateY == coordinateYEQ)
+                    if let intFieldEQ = args.intFieldEQ {
+                        query.filter(\.$groupField.$intField == intFieldEQ)
                     }
-                    if let coordinateYNEQ = args.coordinateYNEQ {
-                        query.filter(\.$positionen.$coordinateY != coordinateYNEQ)
+                    if let intFieldNEQ = args.intFieldNEQ {
+                        query.filter(\.$groupField.$intField != intFieldNEQ)
                     }
-                    if let coordinateYGT = args.coordinateYGT {
-                        query.filter(\.$positionen.$coordinateY > coordinateYGT)
+                    if let intFieldGT = args.intFieldGT {
+                        query.filter(\.$groupField.$intField > intFieldGT)
                     }
-                    if let coordinateYGTE = args.coordinateYGTE {
-                        query.filter(\.$positionen.$coordinateY >= coordinateYGTE)
+                    if let intFieldGTE = args.intFieldGTE {
+                        query.filter(\.$groupField.$intField >= intFieldGTE)
                     }
-                    if let coordinateYLT = args.coordinateYLT {
-                        query.filter(\.$positionen.$coordinateY < coordinateYLT)
+                    if let intFieldLT = args.intFieldLT {
+                        query.filter(\.$groupField.$intField < intFieldLT)
                     }
-                    if let coordinateYLTE = args.coordinateYLTE {
-                        query.filter(\.$positionen.$coordinateY <= coordinateYLTE)
+                    if let intFieldLTE = args.intFieldLTE {
+                        query.filter(\.$groupField.$intField <= intFieldLTE)
+                    }
+                    if let uuidFieldEQ = args.uuidFieldEQ {
+                        query.filter(\.$groupField.$uuidField == uuidFieldEQ)
+                    }
+                    if let uuidFieldNEQ = args.uuidFieldNEQ {
+                        query.filter(\.$groupField.$uuidField != uuidFieldNEQ)
+                    }
+                    if let uuidFieldGT = args.uuidFieldGT {
+                        query.filter(\.$groupField.$uuidField > uuidFieldGT)
+                    }
+                    if let uuidFieldGTE = args.uuidFieldGTE {
+                        query.filter(\.$groupField.$uuidField >= uuidFieldGTE)
+                    }
+                    if let uuidFieldLT = args.uuidFieldLT {
+                        query.filter(\.$groupField.$uuidField < uuidFieldLT)
+                    }
+                    if let uuidFieldLTE = args.uuidFieldLTE {
+                        query.filter(\.$groupField.$uuidField <= uuidFieldLTE)
+                    }
+                    if let stringFieldILIKE = args.stringFieldILIKE {
+                        query.filter(\.$groupField.$stringField, .custom("ILIKE"), "%\(stringFieldILIKE)%")
+                    }
+                    if let arrayFieldVS = args.arrayFieldVS {
+                        query.filter(\.$groupField.$arrayField ~~ arrayFieldVS)
+                    }
+                    if let arrayFieldNVS = args.arrayFieldNVS {
+                        query.filter(\.$groupField.$arrayField !~ arrayFieldNVS)
+                    }
+                    if let dateFieldEQ = args.dateFieldEQ {
+                        query.filter(\.$groupField.$dateField == dateFieldEQ)
+                    }
+                    if let dateFieldNEQ = args.dateFieldNEQ {
+                        query.filter(\.$groupField.$dateField != dateFieldNEQ)
+                    }
+                    if let dateFieldGT = args.dateFieldGT {
+                        query.filter(\.$groupField.$dateField > dateFieldGT)
+                    }
+                    if let dateFieldGTE = args.dateFieldGTE {
+                        query.filter(\.$groupField.$dateField >= dateFieldGTE)
+                    }
+                    if let dateFieldLT = args.dateFieldLT {
+                        query.filter(\.$groupField.$dateField < dateFieldLT)
+                    }
+                    if let dateFieldLTE = args.dateFieldLTE {
+                        query.filter(\.$groupField.$dateField <= dateFieldLTE)
+                    }
+                    if let optionalDateFieldEQ = args.optionalDateFieldEQ {
+                        query.filter(\.$groupField.$optionalDateField == optionalDateFieldEQ)
+                    }
+                    if let optionalDateFieldNEQ = args.optionalDateFieldNEQ {
+                        query.filter(\.$groupField.$optionalDateField != optionalDateFieldNEQ)
+                    }
+                    if let optionalDateFieldGT = args.optionalDateFieldGT {
+                        query.filter(\.$groupField.$optionalDateField > optionalDateFieldGT)
+                    }
+                    if let optionalDateFieldGTE = args.optionalDateFieldGTE {
+                        query.filter(\.$groupField.$optionalDateField >= optionalDateFieldGTE)
+                    }
+                    if let optionalDateFieldLT = args.optionalDateFieldLT {
+                        query.filter(\.$groupField.$optionalDateField < optionalDateFieldLT)
+                    }
+                    if let optionalDateFieldLTE = args.optionalDateFieldLTE {
+                        query.filter(\.$groupField.$optionalDateField <= optionalDateFieldLTE)
+                    }
+                    if let dateFieldEQ = args.dateFieldEQ {
+                        query.filter(\.$dateField == dateFieldEQ)
+                    }
+                    if let dateFieldNEQ = args.dateFieldNEQ {
+                        query.filter(\.$dateField != dateFieldNEQ)
+                    }
+                    if let dateFieldGT = args.dateFieldGT {
+                        query.filter(\.$dateField > dateFieldGT)
+                    }
+                    if let dateFieldGTE = args.dateFieldGTE {
+                        query.filter(\.$dateField >= dateFieldGTE)
+                    }
+                    if let dateFieldLT = args.dateFieldLT {
+                        query.filter(\.$dateField < dateFieldLT)
+                    }
+                    if let dateFieldLTE = args.dateFieldLTE {
+                        query.filter(\.$dateField <= dateFieldLTE)
+                    }
+                    if let optionalDateFieldEQ = args.optionalDateFieldEQ {
+                        query.filter(\.$optionalDateField == optionalDateFieldEQ)
+                    }
+                    if let optionalDateFieldNEQ = args.optionalDateFieldNEQ {
+                        query.filter(\.$optionalDateField != optionalDateFieldNEQ)
+                    }
+                    if let optionalDateFieldGT = args.optionalDateFieldGT {
+                        query.filter(\.$optionalDateField > optionalDateFieldGT)
+                    }
+                    if let optionalDateFieldGTE = args.optionalDateFieldGTE {
+                        query.filter(\.$optionalDateField >= optionalDateFieldGTE)
+                    }
+                    if let optionalDateFieldLT = args.optionalDateFieldLT {
+                        query.filter(\.$optionalDateField < optionalDateFieldLT)
+                    }
+                    if let optionalDateFieldLTE = args.optionalDateFieldLTE {
+                        query.filter(\.$optionalDateField <= optionalDateFieldLTE)
                     }
 
                     return query
