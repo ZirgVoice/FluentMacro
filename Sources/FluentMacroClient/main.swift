@@ -34,15 +34,21 @@
 //    @FluentSortingField
 //    @FluentFilteringField(
 //        methods: [
-//            .ilike
+//            .ilike,
+//            .valueInSet,
+//            .valueNotInSet
 //        ]
 //    )
 //    var stringField: String
 //    @FluentSortingField
 //    @FluentFilteringField(
 //        methods: [
-//            .valueInSet,
-//            .valueNotInSet
+//            .equal,
+//            .notEqual,
+//            .greaterThan,
+//            .greaterThanOrEqual,
+//            .lessThan,
+//            .lessThanOrEqual,
 //        ]
 //    )
 //    var arrayField: [String]
@@ -103,15 +109,21 @@
 //        @FluentSortingField
 //        @FluentFilteringField(
 //            methods: [
-//                .ilike
+//                .ilike,
+//                .valueInSet,
+//                .valueNotInSet
 //            ]
 //        )
 //        var stringField: String
 //        @FluentSortingField
 //        @FluentFilteringField(
 //            methods: [
-//                .valueInSet,
-//                .valueNotInSet
+//                .equal,
+//                .notEqual,
+//                .greaterThan,
+//                .greaterThanOrEqual,
+//                .lessThan,
+//                .lessThanOrEqual,
 //            ]
 //        )
 //        var arrayField: [String]

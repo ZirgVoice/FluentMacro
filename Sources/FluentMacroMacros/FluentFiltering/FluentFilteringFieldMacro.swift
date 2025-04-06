@@ -51,19 +51,18 @@ public struct FluentFilteringFieldMacro: PeerMacro {
         _ variableDecl: VariableDeclSyntax?
     ) throws {
         try checkValueInSet(methods, valueTypeIsArray)
-        try checkAnotherValue(methods, valueTypeIsArray)
         try checkIlikeValue(methods, variableDecl)
     }
 
     private static func checkValueInSet(_ methods: [FluentFilteringMethods], _ valueTypeIsArray: Bool) throws {
-        let errorMessage: (String) -> String = { "The `\($0)` method can only be used with `Array` type!" }
+        let errorMessage: (String) -> String = { "The `\($0)` method cannot be used with Array types!" }
         let valueInSet = FluentFilteringMethods.valueInSet
         let valueNotInSet = FluentFilteringMethods.valueNotInSet
 
-        if methods.contains(where: { $0 == valueInSet }), !valueTypeIsArray {
+        if methods.contains(where: { $0 == valueInSet }), valueTypeIsArray {
             throw MacroExpansionErrorMessage(errorMessage(valueInSet.rawValue))
         }
-        if methods.contains(where: { $0 == valueNotInSet }), !valueTypeIsArray {
+        if methods.contains(where: { $0 == valueNotInSet }), valueTypeIsArray {
             throw MacroExpansionErrorMessage(errorMessage(valueNotInSet.rawValue))
         }
     }
@@ -80,20 +79,6 @@ public struct FluentFilteringFieldMacro: PeerMacro {
 
         if !isString, hasIlikeValue {
             throw MacroExpansionErrorMessage("The `\(ilike.rawValue)` method can only be used with the `\(typeName)` type!")
-        }
-    }
-
-    private static func checkAnotherValue(_ methods: [FluentFilteringMethods], _ valueTypeIsArray: Bool) throws {
-        let valueInSet = FluentFilteringMethods.valueInSet
-        let valueNotInSet = FluentFilteringMethods.valueNotInSet
-        let hasAnotherValue = methods.contains {
-            $0 != valueInSet && $0 != valueNotInSet
-        }
-
-        if valueTypeIsArray, hasAnotherValue {
-            throw MacroExpansionErrorMessage(
-                "Only `\(valueInSet.rawValue)` and `\(valueNotInSet.rawValue)` methods can be used with arrays!"
-            )
         }
     }
 }

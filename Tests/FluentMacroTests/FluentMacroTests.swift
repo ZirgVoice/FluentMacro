@@ -180,14 +180,20 @@ struct FluentMacroTests {
                 var uuidField: UUID
                 @FluentFilteringField(
                     methods: [
-                        .ilike
+                        .ilike,
+                        .valueInSet,
+                        .valueNotInSet
                     ]
                 )
                 var stringField: String
                 @FluentFilteringField(
                     methods: [
-                        .valueInSet,
-                        .valueNotInSet
+                        .equal,
+                        .notEqual,
+                        .greaterThan,
+                        .greaterThanOrEqual,
+                        .lessThan,
+                        .lessThanOrEqual,
                     ]
                 )
                 var arrayField: [String]
@@ -243,14 +249,20 @@ struct FluentMacroTests {
                     var uuidField: UUID
                     @FluentFilteringField(
                         methods: [
-                            .ilike
+                            .ilike,
+                            .valueInSet,
+                            .valueNotInSet
                         ]
                     )
                     var stringField: String
                     @FluentFilteringField(
                         methods: [
-                            .valueInSet,
-                            .valueNotInSet
+                            .equal,
+                            .notEqual,
+                            .greaterThan,
+                            .greaterThanOrEqual,
+                            .lessThan,
+                            .lessThanOrEqual,
                         ]
                     )
                     var arrayField: [String]
@@ -325,8 +337,14 @@ struct FluentMacroTests {
                     var uuidFieldLT: UUID?
                     var uuidFieldLTE: UUID?
                     var stringFieldILIKE: String?
-                    var arrayFieldVS: [String]?
-                    var arrayFieldNVS: [String]?
+                    var stringFieldVS: [String]?
+                    var stringFieldNVS: [String]?
+                    var arrayFieldEQ: String?
+                    var arrayFieldNEQ: String?
+                    var arrayFieldGT: String?
+                    var arrayFieldGTE: String?
+                    var arrayFieldLT: String?
+                    var arrayFieldLTE: String?
                     var intFieldEQ: Int?
                     var intFieldNEQ: Int?
                     var intFieldGT: Int?
@@ -340,8 +358,14 @@ struct FluentMacroTests {
                     var uuidFieldLT: UUID?
                     var uuidFieldLTE: UUID?
                     var stringFieldILIKE: String?
-                    var arrayFieldVS: [String]?
-                    var arrayFieldNVS: [String]?
+                    var stringFieldVS: [String]?
+                    var stringFieldNVS: [String]?
+                    var arrayFieldEQ: String?
+                    var arrayFieldNEQ: String?
+                    var arrayFieldGT: String?
+                    var arrayFieldGTE: String?
+                    var arrayFieldLT: String?
+                    var arrayFieldLTE: String?
                     var dateFieldEQ: Date?
                     var dateFieldNEQ: Date?
                     var dateFieldGT: Date?
@@ -412,11 +436,29 @@ struct FluentMacroTests {
                     if let stringFieldILIKE = args.stringFieldILIKE {
                         query.filter(\.$stringField, .custom("ILIKE"), "%\(stringFieldILIKE)%")
                     }
-                    if let arrayFieldVS = args.arrayFieldVS {
-                        query.filter(\.$arrayField ~~ arrayFieldVS)
+                    if let stringFieldVS = args.stringFieldVS {
+                        query.filter(\.$stringField ~~ stringFieldVS)
                     }
-                    if let arrayFieldNVS = args.arrayFieldNVS {
-                        query.filter(\.$arrayField !~ arrayFieldNVS)
+                    if let stringFieldNVS = args.stringFieldNVS {
+                        query.filter(\.$stringField !~ stringFieldNVS)
+                    }
+                    if let arrayFieldEQ = args.arrayFieldEQ {
+                        query.filter(\.$arrayField == arrayFieldEQ)
+                    }
+                    if let arrayFieldNEQ = args.arrayFieldNEQ {
+                        query.filter(\.$arrayField != arrayFieldNEQ)
+                    }
+                    if let arrayFieldGT = args.arrayFieldGT {
+                        query.filter(\.$arrayField > arrayFieldGT)
+                    }
+                    if let arrayFieldGTE = args.arrayFieldGTE {
+                        query.filter(\.$arrayField >= arrayFieldGTE)
+                    }
+                    if let arrayFieldLT = args.arrayFieldLT {
+                        query.filter(\.$arrayField < arrayFieldLT)
+                    }
+                    if let arrayFieldLTE = args.arrayFieldLTE {
+                        query.filter(\.$arrayField <= arrayFieldLTE)
                     }
                     if let intFieldEQ = args.intFieldEQ {
                         query.filter(\.$groupField.$intField == intFieldEQ)
@@ -457,11 +499,29 @@ struct FluentMacroTests {
                     if let stringFieldILIKE = args.stringFieldILIKE {
                         query.filter(\.$groupField.$stringField, .custom("ILIKE"), "%\(stringFieldILIKE)%")
                     }
-                    if let arrayFieldVS = args.arrayFieldVS {
-                        query.filter(\.$groupField.$arrayField ~~ arrayFieldVS)
+                    if let stringFieldVS = args.stringFieldVS {
+                        query.filter(\.$groupField.$stringField ~~ stringFieldVS)
                     }
-                    if let arrayFieldNVS = args.arrayFieldNVS {
-                        query.filter(\.$groupField.$arrayField !~ arrayFieldNVS)
+                    if let stringFieldNVS = args.stringFieldNVS {
+                        query.filter(\.$groupField.$stringField !~ stringFieldNVS)
+                    }
+                    if let arrayFieldEQ = args.arrayFieldEQ {
+                        query.filter(\.$groupField.$arrayField == arrayFieldEQ)
+                    }
+                    if let arrayFieldNEQ = args.arrayFieldNEQ {
+                        query.filter(\.$groupField.$arrayField != arrayFieldNEQ)
+                    }
+                    if let arrayFieldGT = args.arrayFieldGT {
+                        query.filter(\.$groupField.$arrayField > arrayFieldGT)
+                    }
+                    if let arrayFieldGTE = args.arrayFieldGTE {
+                        query.filter(\.$groupField.$arrayField >= arrayFieldGTE)
+                    }
+                    if let arrayFieldLT = args.arrayFieldLT {
+                        query.filter(\.$groupField.$arrayField < arrayFieldLT)
+                    }
+                    if let arrayFieldLTE = args.arrayFieldLTE {
+                        query.filter(\.$groupField.$arrayField <= arrayFieldLTE)
                     }
                     if let dateFieldEQ = args.dateFieldEQ {
                         query.filter(\.$groupField.$dateField == dateFieldEQ)
